@@ -66,7 +66,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
             _zoneController.Initialize();
 
             _collectedRewardController = GetComponent<CollectedRewardController>();
-            _collectedRewardController.Initialize(_inventoryUIController,_zoneController);
+            _collectedRewardController.Initialize(_inventoryUIController);
             
             exitButton.onClick.AddListener((() =>
             {
@@ -236,7 +236,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
                 BaseSpinRewardData  rewardData = _currentRewards[i];
                 rect.anchoredPosition = new Vector2(x, y);
                 rect.localRotation = Quaternion.Euler(0, 0,AnglePerSlice*i -90);
-                item.Initialize(rewardData,rewardData.RewardImage,rewardData.GetRewardValue(_zoneController.zoneCounter));
+                item.Initialize(rewardData,rewardData.RewardImage,rewardData.rewardValue);
                 _rewards.Add(item);
             }
         }
