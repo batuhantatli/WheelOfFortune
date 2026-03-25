@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e5f2dccb4ab49b44a2f8b8c99af6bb1, type: 3}
+  m_Name: CurrencyData_Money
+  m_EditorClassIdentifier: 
+  objectName: 
+  worldName: 0
+  defaultUserData:
+    id: 71a77a6b-aa31-4506-b7b8-79fc62aba218
+    isSet: 0
+    currentCurrencyValue: 0
+  currencyType: 0
+  startCurrencyValue: 0
+  currencyIcon: {fileID: 21300000, guid: 77b9f320cd71a2045a41b8a1d2e55995, type: 3}

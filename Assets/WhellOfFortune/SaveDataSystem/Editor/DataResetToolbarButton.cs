@@ -1,0 +1,38 @@
+using SaveSystem;
+using UnityEditor;
+using UnityEngine;
+using UnityToolbarExtender;
+
+namespace Core_Base_Package.Scripts.CoreBasePackage.SaveDataSystem.Editor
+{
+    [InitializeOnLoad]
+    public class DataResetToolbarButton
+    {
+        static DataResetToolbarButton()
+        {
+            ToolbarExtender.RightToolbarGUI.Add(OnToolbarGUI);
+        }
+
+        static void OnToolbarGUI()
+        {
+            GUILayout.FlexibleSpace();
+
+            var tex = EditorGUIUtility.IconContent(@"P4_DeletedLocal").image;
+            var gui = new GUIContent("Delete Save Data", tex, "Deletes all save data, included player prefs.");
+            var buttonStyle = GUI.skin.button;
+            var style = new GUIStyle(buttonStyle)
+            {
+                fontSize = 14,
+                alignment = TextAnchor.MiddleRight,
+                imagePosition = ImagePosition.ImageLeft,
+            };
+
+            if (GUILayout.Button(gui, style))
+            {
+                DataManager.Delete();
+            }
+
+            GUILayout.Space(100);
+        }
+    }
+}

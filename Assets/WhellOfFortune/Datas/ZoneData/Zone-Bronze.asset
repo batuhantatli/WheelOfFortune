@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd1edd9a50fc394d9e86a5bc0d8c5dd, type: 3}
+  m_Name: Zone-Bronze
+  m_EditorClassIdentifier: 
+  zoneName: 
+  spin: {fileID: 21300000, guid: 248379e46d294814f9005ad6c6314a16, type: 3}
+  spinIndicator: {fileID: 21300000, guid: 8d3c894e35ebcbb49b5e58c62900a00a, type: 3}
+  rewards:
+  - {fileID: 11400000, guid: 3b6c18a728ee49b468cb741261cd0e5b, type: 2}
+  - {fileID: 11400000, guid: dc7237811c172944183734f09e87511a, type: 2}
+  - {fileID: 11400000, guid: 36ed7f41d51613d449ec2df72b47e672, type: 2}
+  - {fileID: 11400000, guid: 4cabd6e325e78bf449dea5c3a3f560ff, type: 2}
+  - {fileID: 11400000, guid: 36ed7f41d51613d449ec2df72b47e672, type: 2}
+  - {fileID: 11400000, guid: dc7237811c172944183734f09e87511a, type: 2}
+  - {fileID: 11400000, guid: 4cabd6e325e78bf449dea5c3a3f560ff, type: 2}
+  - {fileID: 11400000, guid: 23f43484df332174fbb4dad0868864d8, type: 2}

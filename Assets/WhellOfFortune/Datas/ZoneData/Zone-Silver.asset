@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd1edd9a50fc394d9e86a5bc0d8c5dd, type: 3}
+  m_Name: Zone-Silver
+  m_EditorClassIdentifier: 
+  zoneName: 
+  spin: {fileID: 21300000, guid: ba360e419520d0743bb3880c9e0bc2b8, type: 3}
+  spinIndicator: {fileID: 21300000, guid: 53c953b510405cb4fb0b3729478f8171, type: 3}
+  rewards:
+  - {fileID: 11400000, guid: dc7237811c172944183734f09e87511a, type: 2}
+  - {fileID: 11400000, guid: 19ec143f0d2eee34f9468f4d234b0d0c, type: 2}
+  - {fileID: 11400000, guid: 36ed7f41d51613d449ec2df72b47e672, type: 2}
+  - {fileID: 11400000, guid: 35c23990179487246b0572e6a27fea51, type: 2}
+  - {fileID: 11400000, guid: 4cabd6e325e78bf449dea5c3a3f560ff, type: 2}
+  - {fileID: 11400000, guid: b36d553e785ca6e42a8cdb297c3bd156, type: 2}
+  - {fileID: 11400000, guid: 62ce89cd56f40d043bf41723bebbbd59, type: 2}
+  - {fileID: 11400000, guid: 8e449fcbf67c35c48b1785c9404bae0e, type: 2}
