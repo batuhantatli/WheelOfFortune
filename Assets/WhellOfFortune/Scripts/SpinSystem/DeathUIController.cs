@@ -35,6 +35,13 @@ namespace WhellOfFortune.Scripts.SpinSystem
             
         }
 
+        public override void ClosePanel()
+        {
+            _spinUIController._isCanExit = true;
+            _spinUIController._isSpinning = false;
+            base.ClosePanel();
+        }
+
         private void UpdateUI()
         {
             reviveAds.interactable = true; //IsAdsLoaded()
@@ -68,7 +75,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
                 ClosePanel();
             }
 
-            if (_currencyManager.IsAffordable(CurrencyType.Money,reviveGoldPrice))
+            if (_currencyManager.IsAffordable(CurrencyType.Money,reviveGoldPrice) && !isAds)
             {
                 ClosePanel();
                 _currencyManager.SpendCurrency(CurrencyType.Gold, reviveGoldPrice);

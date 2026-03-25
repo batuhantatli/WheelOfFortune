@@ -44,7 +44,8 @@ namespace WhellOfFortune.Scripts.SpinSystem
         private List<BaseSpinRewardData> _currentRewards = new List<BaseSpinRewardData>();
         private List<RewardItemUI>  _rewards = new List<RewardItemUI>();
 
-        private bool _isSpinning;
+        public bool _isSpinning;
+        public bool _isCanExit;
         private int SliceCount => _currentRewards.Count;
         private float AnglePerSlice => 360f / SliceCount;
         
@@ -70,7 +71,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
             
             exitButton.onClick.AddListener((() =>
             {
-                if (_isSpinning)
+                if (_isSpinning || !_isCanExit)
                 {
                     return;
                 }
@@ -91,6 +92,8 @@ namespace WhellOfFortune.Scripts.SpinSystem
 
         protected override void OpenPanel()
         {
+            _isSpinning = false;
+            _isCanExit = true;
             DOVirtual.DelayedCall(.1f, SetSpin);
             base.OpenPanel();
         }
@@ -127,7 +130,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
         private IEnumerator SpinCoroutine()
         {
             _isSpinning = true;
-
+            _isCanExit = false;
             float time = 0f;
 
             float startAngle = NormalizeAngle(rotateAnimationContainer.eulerAngles.z);
@@ -168,7 +171,6 @@ namespace WhellOfFortune.Scripts.SpinSystem
 
             StartCoroutine(OnSpinComplete(finalIndex));
 
-            _isSpinning = false;
         }
 
         private int GetIndexFromAngle(float angle)
@@ -199,14 +201,18 @@ namespace WhellOfFortune.Scripts.SpinSystem
             }
             
             rewardData.Reward();
-            
             yield return new WaitForSeconds(0.5f);
             SetSpawnAnimation(spawnAnimationContainer,false ,()=>
             {
                 ResetRewards();
                 _zoneController.NextZone();
                 _zoneController.OnNextZoneLoading?.Invoke();
-                SetSpawnAnimation(spawnAnimationContainer,true);
+                SetSpawnAnimation(spawnAnimationContainer,true, () =>
+                {
+                    _isSpinning = false;
+                    _isCanExit = true;
+                
+                });
             });
         }
 
