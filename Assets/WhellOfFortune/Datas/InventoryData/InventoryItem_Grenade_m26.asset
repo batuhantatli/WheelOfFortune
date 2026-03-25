@@ -17,6 +17,6 @@ MonoBehaviour:
   defaultUserData:
     id: 3bbb93c3-71a9-4e83-8079-5806ffc739eb
     count: 0
-  icon: {fileID: 21300000, guid: baf1ea9fa1174134e8fae6ac49da2e84, type: 3}
+  icon: {fileID: 21300000, guid: 464c78e7879808741ab1b5de2cb8e478, type: 3}
   itemType: 13
   isConsumable: 1
