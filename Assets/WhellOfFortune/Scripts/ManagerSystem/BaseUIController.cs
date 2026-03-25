@@ -59,8 +59,14 @@ using WhellOfFortune.Scripts;
 
         public virtual void ClosePanel()
         {
-            if(!isCloseScaleAnimationDisabled)
-                parentTransform.DOScale(Vector3.one * 0.8f, 0.5f).SetEase(closeEaseCurve);
+            if (isCloseScaleAnimationDisabled)
+            {
+                IsOpen = false;
+                mainPanel.SetActive(false);
+                OnPanelClose?.Invoke();
+                return;
+            }
+            parentTransform.DOScale(Vector3.one * 0.8f, 0.5f).SetEase(closeEaseCurve);
             canvasGroup.DOFade(0f, 0.3f).SetDelay(isSlidingOpenAnimation ? 0f : 0.2f).OnComplete(() =>
             {
                 IsOpen = false;

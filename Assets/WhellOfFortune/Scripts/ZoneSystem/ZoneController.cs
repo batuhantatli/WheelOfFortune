@@ -20,6 +20,7 @@ namespace WhellOfFortune.Scripts.ZoneSystem
         public float space;
         public int count = 13;
         public float moveSpeed;
+        public int zoneCounter;
 
         private List<ZoneCount> items = new List<ZoneCount>();
         private int currentIndex = 0;
@@ -45,7 +46,7 @@ namespace WhellOfFortune.Scripts.ZoneSystem
 
         private void SetZone()
         {
-            _currentZone = ZoneFactory.GetZone(currentIndex, bronzeZoneData, silverZoneData, goldZoneData);
+            _currentZone = ZoneFactory.GetZone(zoneCounter, bronzeZoneData, silverZoneData, goldZoneData);
             _currentZone.SetSpinType(_spinUIController);
             SetCenterZone(items[currentIndex]);
         }
@@ -96,7 +97,7 @@ namespace WhellOfFortune.Scripts.ZoneSystem
             if (currentIndex >= items.Count - 1) return;
 
             currentIndex++;
-
+            zoneCounter++;
             float moveAmount = itemSize + space;
 
             foreach (var item in items)
@@ -120,15 +121,12 @@ namespace WhellOfFortune.Scripts.ZoneSystem
             items.Add(firstItem);
             currentIndex--;
 
-            // Yeni text
             int newNumber = items[items.Count - 2].GetNumber() + 1;
             firstItem.SetText(newNumber);
 
-            // State sıfırla
             firstItem.isPassed = false;
             firstItem.SetState(ZoneState.Upcoming, true);
 
-            // Pozisyonu en sondaki item'ın bir adım ilerisine koy
             ZoneCount secondLast = items[items.Count - 2];
             float secondLastX = secondLast.GetRectTransform().anchoredPosition.x;
             firstItem.GetRectTransform().SetParent(baseContainer);
@@ -146,6 +144,7 @@ namespace WhellOfFortune.Scripts.ZoneSystem
             items.Clear();
 
             currentIndex = 0;
+            zoneCounter = 0;
         }
 
         #endregion

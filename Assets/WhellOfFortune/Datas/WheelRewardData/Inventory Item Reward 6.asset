@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardValue: 10
   inventoryItemData: {fileID: 11400000, guid: d6d7a70f8c1dd1a429047becb56d50f3, type: 2}
+  minValue: 5
+  maxValue: 50

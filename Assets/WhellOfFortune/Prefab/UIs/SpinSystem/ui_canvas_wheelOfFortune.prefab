@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
   m_OnCullStateChanged:
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.011764706}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -533,9 +533,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -637,6 +637,7 @@ GameObject:
   - component: {fileID: 8384016762734588839}
   - component: {fileID: 2520792609908119719}
   - component: {fileID: 7278839286657020214}
+  - component: {fileID: 92832594}
   m_Layer: 5
   m_Name: ui_canvas_wheelOfFortune
   m_TagString: Untagged
@@ -753,7 +754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <isFrontCanvas>k__BackingField: 0
   <isActiveAtStart>k__BackingField: 0
-  <isCloseScaleAnimationDisabled>k__BackingField: 0
+  <isCloseScaleAnimationDisabled>k__BackingField: 1
   <isSlidingOpenAnimation>k__BackingField: 0
   <slideStartY>k__BackingField: 0
   <mainPanel>k__BackingField: {fileID: 8764283342897995322}
@@ -812,7 +813,7 @@ MonoBehaviour:
   rotateAnimationContainer: {fileID: 6798886131294798430}
   spawnAnimationContainer: {fileID: 5039466121132396736}
   spinImage: {fileID: 7978135335308047109}
-  spinIndicatorImage: {fileID: 0}
+  spinIndicatorImage: {fileID: 3907356579364599597}
   spinButton: {fileID: 5512760742633729489}
   rewardContainer: {fileID: 7087477577558612212}
   rewardPrefab: {fileID: 9195602614818442026, guid: 6cf8db45187f2da4d95746db7326c49d,
@@ -854,7 +855,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  exitButton: {fileID: 0}
+  exitButton: {fileID: 2359780540329402272}
 --- !u!114 &7278839286657020214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,6 +878,22 @@ MonoBehaviour:
   space: 30
   count: 13
   moveSpeed: 1
+--- !u!114 &92832594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4364376939285893313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ad08c0aa18c714cb7c58faf20035da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectedRewards: []
+  collectedRewardContainer: {fileID: 6724801735340480201}
+  collectedItemUI: {fileID: -6916851552374228352, guid: d18fcd844c302c14fa4d85ca5223b527,
+    type: 3}
 --- !u!1 &4678084291114018930
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,9 +1228,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.2784314, g: 0.2784314, b: 0.2784314, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1405,7 +1422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

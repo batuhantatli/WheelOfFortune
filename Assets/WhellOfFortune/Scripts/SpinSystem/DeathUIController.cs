@@ -37,12 +37,11 @@ namespace WhellOfFortune.Scripts.SpinSystem
 
         private void UpdateUI()
         {
-            if (IsAdsLoaded())
-            {
-                reviveAds.interactable = false;
-            }
+            reviveAds.interactable = true; //IsAdsLoaded()
             
             SetReviveGoldText();
+            
+            SetGoldReviveButton();
         }
 
         private void ReturnInventory()
@@ -57,18 +56,22 @@ namespace WhellOfFortune.Scripts.SpinSystem
             reviveGoldText.text = reviveGoldPrice.ToString();
         }
 
+        private void SetGoldReviveButton()
+        {
+            reviveGold.interactable = _currencyManager.IsAffordable(CurrencyType.Money,reviveGoldPrice);
+        }
+
         private void Revive(bool isAds)
         {
             if (isAds)
             {
-                // close panel
-                //revive
+                ClosePanel();
             }
 
             if (_currencyManager.IsAffordable(CurrencyType.Money,reviveGoldPrice))
             {
-                //close panel
-                //revive
+                ClosePanel();
+                _currencyManager.SpendCurrency(CurrencyType.Gold, reviveGoldPrice);
             }
         }
 

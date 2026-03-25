@@ -66,15 +66,20 @@ namespace WhellOfFortune.Scripts.SpinSystem
             _zoneController.Initialize();
 
             _collectedRewardController = GetComponent<CollectedRewardController>();
-            _collectedRewardController.Initialize(_inventoryUIController);
+            _collectedRewardController.Initialize(_inventoryUIController,_zoneController);
             
             exitButton.onClick.AddListener((() =>
             {
+                if (_isSpinning)
+                {
+                    return;
+                }
                 _collectedRewardController.ExitZone();
                 ResetRewards();
                 ClosePanel();
             }));
             spinButton.onClick.AddListener(Spin);
+            SetSpawnAnimation(spawnAnimationContainer,false);
             
             base.InitializeUIController(uiManager);
             
@@ -94,6 +99,8 @@ namespace WhellOfFortune.Scripts.SpinSystem
         {
             ClearSpin();
             _inventoryUIController.TryOpenPanel(null);
+            SetSpawnAnimation(spawnAnimationContainer,false);
+            
             base.ClosePanel();
         }
 
@@ -104,6 +111,8 @@ namespace WhellOfFortune.Scripts.SpinSystem
         private void SetSpin()
         {
             _zoneController.SpawnZonesCount();
+            SetSpawnAnimation(spawnAnimationContainer,true);
+            
             _zoneController.OnNextZoneLoading?.Invoke();
         }
 
@@ -192,12 +201,12 @@ namespace WhellOfFortune.Scripts.SpinSystem
             rewardData.Reward();
             
             yield return new WaitForSeconds(0.5f);
-            SpawnAnimation(spawnAnimationContainer,false ,()=>
+            SetSpawnAnimation(spawnAnimationContainer,false ,()=>
             {
                 ResetRewards();
                 _zoneController.NextZone();
                 _zoneController.OnNextZoneLoading?.Invoke();
-                SpawnAnimation(spawnAnimationContainer,true);
+                SetSpawnAnimation(spawnAnimationContainer,true);
             });
         }
 
@@ -227,7 +236,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
                 BaseSpinRewardData  rewardData = _currentRewards[i];
                 rect.anchoredPosition = new Vector2(x, y);
                 rect.localRotation = Quaternion.Euler(0, 0,AnglePerSlice*i -90);
-                item.Initialize(rewardData,rewardData.RewardImage,rewardData.rewardValue);
+                item.Initialize(rewardData,rewardData.RewardImage,rewardData.GetRewardValue(_zoneController.zoneCounter));
                 _rewards.Add(item);
             }
         }
@@ -256,7 +265,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
             _currentRewards.Clear();
         }
 
-        private void SpawnAnimation(Transform wheelParent, bool isSpawning,Action OnComplete = null)
+        private void SetSpawnAnimation(Transform wheelParent, bool isSpawning,Action OnComplete = null)
         {
             // DOTween sequence oluştur
             Sequence seq = DOTween.Sequence();

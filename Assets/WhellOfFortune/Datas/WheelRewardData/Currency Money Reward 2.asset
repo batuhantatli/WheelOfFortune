@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardValue: 5000
   currencyData: {fileID: 11400000, guid: f67d210834621384c9f321e887d58e4e, type: 2}
+  minValue: 10000
+  maxValue: 20000
