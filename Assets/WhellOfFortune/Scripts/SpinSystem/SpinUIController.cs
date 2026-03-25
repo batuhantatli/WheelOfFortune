@@ -86,7 +86,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
 
         protected override void OpenPanel()
         {
-            DOVirtual.DelayedCall(1, SetSpin);
+            DOVirtual.DelayedCall(.1f, SetSpin);
             base.OpenPanel();
         }
 
@@ -190,7 +190,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
             }
             
             rewardData.Reward();
-            Debug.Log(rewardData.RewardImage);
+            
             yield return new WaitForSeconds(0.5f);
             SpawnAnimation(spawnAnimationContainer,false ,()=>
             {

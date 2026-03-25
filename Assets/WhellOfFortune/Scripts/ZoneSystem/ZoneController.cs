@@ -22,15 +22,15 @@ namespace WhellOfFortune.Scripts.ZoneSystem
         public float moveSpeed;
 
         private List<ZoneCount> items = new List<ZoneCount>();
-        private int currentIndex = 1;
+        private int currentIndex = 0;
         private float itemSize;
 
         private ZoneCount _currentCenterZone;
         private ZoneBase _currentZone;
         private SpinUIController _spinUIController;
-        
+
         public Action OnNextZoneLoading;
-        
+
         #region INIT
 
         public void Initialize()
@@ -38,6 +38,7 @@ namespace WhellOfFortune.Scripts.ZoneSystem
             _spinUIController = GetComponent<SpinUIController>();
             OnNextZoneLoading += SetZone;
         }
+
         #endregion
 
         #region PRIVATE METHODS
@@ -46,7 +47,7 @@ namespace WhellOfFortune.Scripts.ZoneSystem
         {
             _currentZone = ZoneFactory.GetZone(currentIndex, bronzeZoneData, silverZoneData, goldZoneData);
             _currentZone.SetSpinType(_spinUIController);
-            SetCenterZone(items[currentIndex-1]);
+            SetCenterZone(items[currentIndex]);
         }
 
         public void SpawnZonesCount()
@@ -60,25 +61,16 @@ namespace WhellOfFortune.Scripts.ZoneSystem
 
             items.Clear();
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count + 2; i++)
             {
                 ZoneCount newItem = Instantiate(zoneCount, baseContainer);
                 newItem.Initialize(baseContainer, centerContainer, ZoneState.Upcoming);
-                newItem.SetText(i+1);
-                // var _rectTransform = newItem.GetComponent<RectTransform>();
-                // _rectTransform.anchorMin = new Vector2(0, 0.5f);
-                // _rectTransform.anchorMax = new Vector2(0, 0.5f);
-                // _rectTransform.pivot = new Vector2(0.5f, 0.5f);
-                //
-                // _rectTransform.sizeDelta = new Vector2(itemSize, itemSize);
-                //
-                // float xPos = centerX + i * (itemSize + space);
-                // _rectTransform.anchoredPosition = new Vector2(xPos, 0);
+                newItem.SetText(i + 1);
                 newItem.SetPosition(itemSize, centerX, space, i);
                 items.Add(newItem);
             }
 
-            currentIndex = 1;
+            currentIndex = 0;
             SetCenterZone(items[currentIndex]);
         }
 
@@ -90,7 +82,7 @@ namespace WhellOfFortune.Scripts.ZoneSystem
                 _currentCenterZone.SetState(ZoneState.Center, true);
                 return;
             }
-            
+
             _currentCenterZone.SetState(ZoneState.Passed, false);
 
             newCenterZone.SetState(ZoneState.Center, true);
@@ -112,8 +104,37 @@ namespace WhellOfFortune.Scripts.ZoneSystem
                 item.MoveNext(moveAmount, moveSpeed);
             }
 
-            SetCenterZone(items[currentIndex-1]);
+            SetCenterZone(items[currentIndex]);
+
+            // Merkezdeki index 8'e ulaştığında en baştaki elemanı sona taşı
+            if (currentIndex >= 8)
+            {
+                RecycleFirstItemToEnd();
+            }
         }
+
+        private void RecycleFirstItemToEnd()
+        {
+            ZoneCount firstItem = items[0];
+            items.RemoveAt(0);
+            items.Add(firstItem);
+            currentIndex--;
+
+            // Yeni text
+            int newNumber = items[items.Count - 2].GetNumber() + 1;
+            firstItem.SetText(newNumber);
+
+            // State sıfırla
+            firstItem.isPassed = false;
+            firstItem.SetState(ZoneState.Upcoming, true);
+
+            // Pozisyonu en sondaki item'ın bir adım ilerisine koy
+            ZoneCount secondLast = items[items.Count - 2];
+            float secondLastX = secondLast.GetRectTransform().anchoredPosition.x;
+            firstItem.GetRectTransform().SetParent(baseContainer);
+            firstItem.SetPositionX(secondLastX + itemSize + space);
+        }
+        
 
         public void ResetZone()
         {
@@ -121,7 +142,7 @@ namespace WhellOfFortune.Scripts.ZoneSystem
             {
                 Destroy(item.gameObject);
             }
-            
+
             items.Clear();
 
             currentIndex = 0;

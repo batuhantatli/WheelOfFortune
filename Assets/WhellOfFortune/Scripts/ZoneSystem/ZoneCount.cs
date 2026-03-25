@@ -67,6 +67,21 @@ namespace WhellOfFortune.Scripts.ZoneSystem
                 ApplyBackgroundVisual(state);
             }
         }
+        
+        public int GetNumber()
+        {
+            return int.TryParse(countText.text, out int n) ? n : 0;
+        }
+
+        public RectTransform GetRectTransform()
+        {
+            return _rectTransform;
+        }
+
+        public void SetPositionX(float x)
+        {
+            _rectTransform.anchoredPosition = new Vector2(x, _rectTransform.anchoredPosition.y);
+        }
 
         private void ApplyTextVisual(ZoneState state)
         {
