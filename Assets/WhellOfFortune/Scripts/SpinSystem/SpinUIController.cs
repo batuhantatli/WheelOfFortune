@@ -16,15 +16,15 @@ namespace WhellOfFortune.Scripts.SpinSystem
 {
     public class SpinUIController : BaseUIController
     {
-        
-        [Header("References")] 
-        [SerializeField] private Transform rotateAnimationContainer;
-        [SerializeField] private Transform spawnAnimationContainer; 
+        [Header("References")] [SerializeField]
+        private Transform rotateAnimationContainer;
+
+        [SerializeField] private Transform spawnAnimationContainer;
         [SerializeField] private Image spinImage;
         [SerializeField] private Image spinIndicatorImage;
         [SerializeField] private Button spinButton;
 
-        
+
         [Header("Reward Spawn")] [SerializeField]
         private RectTransform rewardContainer;
 
@@ -38,52 +38,53 @@ namespace WhellOfFortune.Scripts.SpinSystem
         [SerializeField] private int maxSpinCount = 6;
         [SerializeField] private AnimationCurve spinCurve;
 
-        [Header("Collected Panel")] 
-        [SerializeField] private Button exitButton;
-        
+        [Header("Collected Panel")] [SerializeField]
+        private Button exitButton;
+
         private List<BaseSpinRewardData> _currentRewards = new List<BaseSpinRewardData>();
-        private List<RewardItemUI>  _rewards = new List<RewardItemUI>();
+        private List<RewardItemUI> _rewards = new List<RewardItemUI>();
 
         public bool _isSpinning;
         public bool _isCanExit;
         private int SliceCount => _currentRewards.Count;
         private float AnglePerSlice => 360f / SliceCount;
-        
+
         private ZoneController _zoneController;
         private CollectedRewardController _collectedRewardController;
         private DeathUIController _deathUIController;
         private InventoryUIController _inventoryUIController;
         public CollectedRewardController CollectedRewardController => _collectedRewardController;
-        
+
 
         #region INIT
 
         public override void InitializeUIController(GeneralUIManager uiManager)
         {
-            _deathUIController = GameManager.Instance.GetManager<GeneralUIManager>().GetUIController<DeathUIController>();
+            _deathUIController =
+                GameManager.Instance.GetManager<GeneralUIManager>().GetUIController<DeathUIController>();
             _inventoryUIController = uiManager.GetUIController<InventoryUIController>();
-            
+
             _zoneController = GetComponent<ZoneController>();
             _zoneController.Initialize();
 
             _collectedRewardController = GetComponent<CollectedRewardController>();
             _collectedRewardController.Initialize(_inventoryUIController);
-            
+
             exitButton.onClick.AddListener((() =>
             {
                 if (_isSpinning || !_isCanExit)
                 {
                     return;
                 }
+
                 _collectedRewardController.ExitZone();
                 ResetRewards();
                 ClosePanel();
             }));
             spinButton.onClick.AddListener(Spin);
-            SetSpawnAnimation(spawnAnimationContainer,false);
-            
+            SetSpawnAnimation(spawnAnimationContainer, false);
+
             base.InitializeUIController(uiManager);
-            
         }
 
         #endregion
@@ -102,8 +103,8 @@ namespace WhellOfFortune.Scripts.SpinSystem
         {
             ClearSpin();
             _inventoryUIController.TryOpenPanel(null);
-            SetSpawnAnimation(spawnAnimationContainer,false);
-            
+            SetSpawnAnimation(spawnAnimationContainer, false);
+
             base.ClosePanel();
         }
 
@@ -114,8 +115,8 @@ namespace WhellOfFortune.Scripts.SpinSystem
         private void SetSpin()
         {
             _zoneController.SpawnZonesCount();
-            SetSpawnAnimation(spawnAnimationContainer,true);
-            
+            SetSpawnAnimation(spawnAnimationContainer, true);
+
             _zoneController.OnNextZoneLoading?.Invoke();
         }
 
@@ -170,7 +171,6 @@ namespace WhellOfFortune.Scripts.SpinSystem
             Debug.Log("Target: " + targetIndex + " | Result: " + finalIndex);
 
             StartCoroutine(OnSpinComplete(finalIndex));
-
         }
 
         private int GetIndexFromAngle(float angle)
@@ -189,9 +189,9 @@ namespace WhellOfFortune.Scripts.SpinSystem
         {
             if (index < 0 || index >= _currentRewards.Count)
             {
-                yield return null;
+                yield break;
             }
-            
+
 
             BaseSpinRewardData rewardData = _currentRewards[index];
             if (rewardData is BombSpinRewardData)
@@ -199,19 +199,18 @@ namespace WhellOfFortune.Scripts.SpinSystem
                 _deathUIController.TryOpenPanel(null);
                 yield break;
             }
-            
+
             rewardData.Reward();
             yield return new WaitForSeconds(0.5f);
-            SetSpawnAnimation(spawnAnimationContainer,false ,()=>
+            SetSpawnAnimation(spawnAnimationContainer, false, () =>
             {
                 ResetRewards();
                 _zoneController.NextZone();
                 _zoneController.OnNextZoneLoading?.Invoke();
-                SetSpawnAnimation(spawnAnimationContainer,true, () =>
+                SetSpawnAnimation(spawnAnimationContainer, true, () =>
                 {
                     _isSpinning = false;
                     _isCanExit = true;
-                
                 });
             });
         }
@@ -223,7 +222,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
 
             for (int i = rewardContainer.childCount - 1; i >= 0; i--)
             {
-                DestroyImmediate(rewardContainer.GetChild(i).gameObject);
+                Destroy(rewardContainer.GetChild(i).gameObject);
             }
 
             for (int i = 0; i < _currentRewards.Count; i++)
@@ -239,10 +238,10 @@ namespace WhellOfFortune.Scripts.SpinSystem
                 RewardItemUI item = Instantiate(rewardPrefab, rewardContainer);
 
                 RectTransform rect = item.GetComponent<RectTransform>();
-                BaseSpinRewardData  rewardData = _currentRewards[i];
+                BaseSpinRewardData rewardData = _currentRewards[i];
                 rect.anchoredPosition = new Vector2(x, y);
-                rect.localRotation = Quaternion.Euler(0, 0,AnglePerSlice*i -90);
-                item.Initialize(rewardData,rewardData.RewardImage,rewardData.rewardValue);
+                rect.localRotation = Quaternion.Euler(0, 0, AnglePerSlice * i - 90);
+                item.Initialize(rewardData, rewardData.RewardImage, rewardData.rewardValue);
                 _rewards.Add(item);
             }
         }
@@ -263,15 +262,16 @@ namespace WhellOfFortune.Scripts.SpinSystem
 
         private void ResetRewards()
         {
-            foreach (var VARIABLE in _rewards)
+            foreach (var rewardItemUI in _rewards)
             {
-                Destroy(VARIABLE.gameObject);
+                Destroy(rewardItemUI.gameObject);
             }
+
             _rewards.Clear();
             _currentRewards.Clear();
         }
 
-        private void SetSpawnAnimation(Transform wheelParent, bool isSpawning,Action OnComplete = null)
+        private void SetSpawnAnimation(Transform wheelParent, bool isSpawning, Action OnComplete = null)
         {
             // DOTween sequence oluştur
             Sequence seq = DOTween.Sequence();
@@ -286,21 +286,14 @@ namespace WhellOfFortune.Scripts.SpinSystem
                 // Scale ve Rotate animasyonu aynı anda ekle
                 seq.Append(wheelParent.DOScale(1f, 1f).SetEase(Ease.OutBack))
                     .Join(wheelParent.DOLocalRotate(new Vector3(0, 0, 720f), 1f, RotateMode.FastBeyond360)
-                        .SetEase(Ease.OutCubic)).OnComplete((() =>
-                    {
-                        OnComplete?.Invoke();
-                    }));
+                        .SetEase(Ease.OutCubic)).OnComplete((() => { OnComplete?.Invoke(); }));
             }
             else
             {
-
                 // Kaybolma animasyonu
                 seq.Append(wheelParent.DOScale(0f, 1f).SetEase(Ease.InBack))
                     .Join(wheelParent.DOLocalRotate(new Vector3(0, 0, -720f), 1f, RotateMode.FastBeyond360)
-                        .SetEase(Ease.InCubic)).OnComplete((() =>
-                    {
-                        OnComplete?.Invoke();
-                    }));
+                        .SetEase(Ease.InCubic)).OnComplete((() => { OnComplete?.Invoke(); }));
             }
         }
 
@@ -309,7 +302,7 @@ namespace WhellOfFortune.Scripts.SpinSystem
 
         #region PUBLIC METHODS
 
-        public void SetSpinType(Sprite spinSprite , Sprite spinIndicator)
+        public void SetSpinType(Sprite spinSprite, Sprite spinIndicator)
         {
             spinImage.sprite = spinSprite;
             spinIndicatorImage.sprite = spinIndicator;
@@ -322,6 +315,5 @@ namespace WhellOfFortune.Scripts.SpinSystem
         }
 
         #endregion
-
     }
 }
