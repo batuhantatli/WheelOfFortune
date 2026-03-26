@@ -16,9 +16,10 @@ namespace WhellOfFortune.Scripts.InventorySystem
         [SerializeField] private InventoryUIItem itemPrefab;
         [SerializeField] private Button spinStartButton;
         public List<InventoryUIItem> currentItems = new List<InventoryUIItem>();
-        private SpinUIController  _spinUIController;
-        private CurrencyManager  _currencyManager;
+        private SpinUIController _spinUIController;
+        private CurrencyManager _currencyManager;
         private InventoryController _inventoryController;
+
         public override void InitializeUIController(GeneralUIManager uiManager)
         {
             _currencyManager = GameManager.Instance.GetManager<CurrencyManager>();
@@ -36,10 +37,11 @@ namespace WhellOfFortune.Scripts.InventorySystem
         {
             base.OpenPanel();
         }
-        
+
         public void AddCollectedRewards(CollectedItemUI collectedItemUI)
         {
             BaseSpinRewardData rewardData = collectedItemUI.RewardData;
+
             if (rewardData is InventoryItemSpinRewardData spinRewardData1 &&
                 IsItemHave(spinRewardData1.inventoryItemData.itemType))
             {
@@ -51,6 +53,7 @@ namespace WhellOfFortune.Scripts.InventorySystem
                 InventoryUIItem inventoryItem = Instantiate(itemPrefab, itemContainer.transform);
                 inventoryItem.Initialize(_inventoryController, spinRewardData2.inventoryItemData,
                     collectedItemUI.ItemCount);
+                inventoryItem.AddItem(collectedItemUI.ItemCount);
             }
             else if (rewardData is CurrencySpinRewardData currencyRewardData)
             {
@@ -59,20 +62,22 @@ namespace WhellOfFortune.Scripts.InventorySystem
             }
         }
 
-        public void LoadInventory(List<BaseInventoryItemData>  inventoryItems)
+        public void LoadInventory(List<BaseInventoryItemData> inventoryItems)
         {
             foreach (var inventoryItem in inventoryItems)
             {
                 if (inventoryItem.isConsumable)
                 {
-                    if (inventoryItem.UserData.count <= 0) return;
+                    if (inventoryItem.UserData.count <= 0) continue;
                     InventoryUIItem spawnedItem = Instantiate(itemPrefab, itemContainer.transform);
                     spawnedItem.Initialize(_inventoryController, inventoryItem, inventoryItem.UserData.count);
+                    currentItems.Add(spawnedItem);
                 }
                 else
                 {
                     InventoryUIItem spawnedItem = Instantiate(itemPrefab, itemContainer.transform);
                     spawnedItem.Initialize(_inventoryController, inventoryItem, inventoryItem.UserData.count);
+                    currentItems.Add(spawnedItem);
                 }
             }
         }

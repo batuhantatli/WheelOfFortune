@@ -151,16 +151,10 @@ namespace WhellOfFortune.Scripts.CurrencySystem
 
         public override void LoadManager(Action onLoadEnd)
         {
-            // foreach (var data in currencyData)
-            // {
-            //     data.Initialize();
-            //     if (!data..isSet)
-            //     {
-            //         data..isSet = true;
-            //         data..currentCurrencyValue = data.startCurrencyValue;
-            //         data.SaveUserData();
-            //     }
-            // }
+            foreach (var data in currencyData)
+            {
+                data.Initialize();
+            }
         
             onLoadEnd?.Invoke();
         }

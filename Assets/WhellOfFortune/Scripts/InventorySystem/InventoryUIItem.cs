@@ -19,6 +19,7 @@ public class InventoryUIItem : MonoBehaviour
     public virtual void Initialize(InventoryController inventory,BaseInventoryItemData inventoryItemData , int count)
     {
         _inventoryController = inventory;
+        _inventoryData = inventoryItemData;
         SetItemIcon(inventoryItemData.icon);
         SetItemCountText(count);
     }
@@ -34,13 +35,14 @@ public class InventoryUIItem : MonoBehaviour
         
     }
 
-    public virtual void AddItem( int count)
+    public void AddItem( int count)
     {
+        Debug.Log(count);
         _inventoryData.UserData.count += count;
         _inventoryData.SaveUserData();
     }
 
-    public virtual void Destroy()
+    public void Destroy()
     {
         Destroy(this);
     }

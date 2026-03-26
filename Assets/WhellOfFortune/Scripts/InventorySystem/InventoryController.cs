@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 using WhellOfFortune.Scripts.CurrencySystem;
@@ -17,14 +18,33 @@ namespace WhellOfFortune.Scripts.InventorySystem
 
         public override void LoadManager(Action onLoadEnd)
         {
+            foreach (var data in itemDatas)
+            {
+                data.Initialize();
+            }
+            
             _inventoryUIController =
                 _gameManager.GetManager<GeneralUIManager>().GetUIController<InventoryUIController>();
+            
+            _inventoryUIController.LoadInventory(itemDatas);
+            
+            
+            
             onLoadEnd?.Invoke();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                itemDatas[5].UserData.count += 5;
+                itemDatas[5].SaveUserData();
+            }
         }
 
         public override void InitManager()
         {
-            _inventoryUIController.LoadInventory(itemDatas);
+
         }
 
     }
